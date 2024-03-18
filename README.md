@@ -24,16 +24,20 @@ These instructions will get you a copy of the project up and running on your loc
 ### Installing
 
 1. Clone the repository: `git clone https://github.com/Eric11/Vehicle-Data-FullStack-App.git`
-2. Install the dependencies: `npm install`
-3. Start the backend server: `npm run start` in the `vehicles-backend` directory
-4. Start the frontend: `npm start` in the main directory
+2. Navigate to the frontend directory: `cd Vehicle-Data-FullStack-App/frontend`
+3. Install the frontend dependencies: `npm install`
+4. Start the frontend: `npm start`
+5. Open a new terminal window or tab.
+6. Navigate to the backend directory: `cd ../vehicles-backend`
+7. Install the backend dependencies: `npm install`
+8. Start the backend server: `npm run start`
 
-The application will start running at `http://localhost:3000`.
+The frontend will start running at `http://localhost:3000` and the backend will start running at `http://localhost:4000`.
 
 ## 🧪 Running the tests 🧪
 
-Run `npm test` to execute the unit tests.
+Run `npm test` in the respective frontend or backend directory to execute the unit tests.
 
 ## 📦 Deployment 📦
 
-Run `npm run build` to build the project for production.
+Run `npm run build` in the frontend directory to build the project for production.
