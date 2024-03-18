@@ -28,7 +28,7 @@ These instructions will get you a copy of the project up and running on your loc
 3. Install the frontend dependencies: `npm install`
 4. Start the frontend: `npm start`
 5. Open a new terminal window or tab.
-6. Navigate to the backend directory: `cd ../vehicles-backend`
+6. Navigate to the backend directory: `cd ../backend`
 7. Install the backend dependencies: `npm install`
 8. Start the backend server: `npm run start`
 
