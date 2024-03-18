@@ -1,26 +1,27 @@
-const express = require("express");
-const vehicles = require("./vehicles");
+const express = require('express');
+const vehicles = require('./vehicles');
 const app = express();
 
-app.use( (req, res, next) => {
+// 🌐 Middleware to set CORS headers, allowing requests from any origin
+app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   res.header('Access-Control-Allow-Headers', '*');
-
   next();
-})
+});
 
-  app.use((req, res, next) => setTimeout(next, 2000));
+// ⏱️ Middleware to simulate network latency by delaying the response by 2 seconds
+app.use((req, res, next) => setTimeout(next, 2000));
 
-// the arrow function is not called right away, it is just defined here
-// app will call it when it gets a GET request with a path "/vehicles"
-app.get("/vehicles", (req, res) => {
-  console.log("GET Vehicles");
+// 🚗 Route handler for GET /vehicles requests
+// The function is defined here and will be called by Express.js when a matching request is received
+app.get('/vehicles', (req, res) => {
+  console.log('🚗 GET Vehicles');
   res.send(vehicles);
 });
 
-//the arrow function will be exectued when server actually starts,
-//app.listen gets exectued immediately
+// 🚀 Start the server on port 4000
+// The function passed to app.listen() will be called immediately when the server starts
 app.listen(4000, () => {
-  console.log("server starting");
+  console.log('🚀 Server starting');
 });
