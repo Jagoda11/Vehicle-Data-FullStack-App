@@ -2,7 +2,7 @@
 
 ![Last Commit](https://img.shields.io/github/last-commit/Jagoda11/Vehicle-Data-FullStack-App/master?style=flat-square&color=blue)
 ![Open Issues](https://img.shields.io/github/issues/Jagoda11/Vehicle-Data-FullStack-App?style=flat-square&color=orange)
-
+![Build Status](https://github.com/Jagoda11/Vehicle-Data-FullStack-App/actions/workflows/npm-update.yml/badge.svg?branch=master)
 
 This is a simple vehicle tracking system built with React and Express.js. The application fetches and displays a list of vehicles and their details.
 
