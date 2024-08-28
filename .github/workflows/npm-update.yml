@@ -6,7 +6,7 @@ on:
   workflow_dispatch:  # Allows manual triggering
   push:
     branches:
-      - master  # Runs on pushes to the main branch
+      - master
 
 jobs:
   update-and-scan:
@@ -21,20 +21,33 @@ jobs:
         with:
           node-version: '20'
 
-      - name: 🗑️ Remove package-lock.json
-        run: rm -f package-lock.json
+      # Frontend Updates
+      - name: 🗑️ Remove package-lock.json (Frontend)
+        run: rm -f frontend/package-lock.json
 
-      - name: 📦 Install npm-check-updates
+      - name: 📦 Install npm-check-updates (Frontend)
         run: npm install -g npm-check-updates
 
-      - name: ⬆️ Update all packages
+      - name: ⬆️ Update all packages in frontend
         run: |
-          ncu -u  # Correct command to update package.json with the latest versions
-          npm install  # Reinstall dependencies and regenerate package-lock.json
+          cd frontend
+          ncu -u  # Update package.json with the latest versions
+          npm install --legacy-peer-deps  # Install dependencies with legacy peer deps handling
 
-      - name: 📦 Update dependencies with legacy peer deps
-        run: npm update --legacy-peer-deps
+      # Backend Updates
+      - name: 🗑️ Remove package-lock.json (Backend)
+        run: rm -f backend/package-lock.json
 
+      - name: 📦 Install npm-check-updates (Backend)
+        run: npm install -g npm-check-updates
+
+      - name: ⬆️ Update all packages in backend
+        run: |
+          cd backend
+          ncu -u  # Update package.json with the latest versions
+          npm install --legacy-peer-deps  # Install dependencies with legacy peer deps handling
+
+      # Debricked Setup and Scan
       - name: 🎭 Mask Debricked credentials
         run: echo "::add-mask::${{ secrets.DEBRICKED_TOKEN }}"
 
@@ -47,13 +60,14 @@ jobs:
         run: |
           debricked scan -t ${{ secrets.DEBRICKED_TOKEN }} -r ${{ github.repository }} -c ${{ github.sha }}
 
+      # Commit and Push Changes if Updates Were Made
       - name: 📝 Commit changes
         if: success()
         run: |
           git config --local user.name "Debugging Duck 🦆"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git add package.json package-lock.json
-          git diff-index --quiet HEAD || git commit -m "⬆️ update all npm dependencies⬆️"
+          git add frontend/package.json frontend/package-lock.json backend/package.json backend/package-lock.json
+          git diff-index --quiet HEAD || git commit -m "⬆️ update all npm dependencies ⬆️"
 
       - name: 🚀 Push changes
         if: success()
