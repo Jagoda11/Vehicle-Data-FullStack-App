@@ -2,11 +2,11 @@ name: 🚀 Dependency Update and Vulnerability Scan
 
 on:
   schedule:
-    - cron: '0 2 * * *'
-  workflow_dispatch:
+    - cron: '0 2 * * *'  # Runs daily at 2 AM UTC
+  workflow_dispatch:  # Allows manual triggering
   push:
     branches:
-      - main
+      - master  # Runs on pushes to the main branch
 
 jobs:
   update-and-scan:
@@ -29,15 +29,14 @@ jobs:
 
       - name: ⬆️ Update all packages
         run: |
-          ncu -x
-          npm install
+          ncu -u  # Correct command to update package.json with the latest versions
+          npm install  # Reinstall dependencies and regenerate package-lock.json
 
       - name: 📦 Update dependencies with legacy peer deps
         run: npm update --legacy-peer-deps
 
       - name: 🎭 Mask Debricked credentials
-        run: |
-          echo "::add-mask::${{ secrets.DEBRICKED_TOKEN }}"
+        run: echo "::add-mask::${{ secrets.DEBRICKED_TOKEN }}"
 
       - name: Install Debricked CLI
         run: |
@@ -53,7 +52,7 @@ jobs:
         run: |
           git config --local user.name "Debugging Duck 🦆"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
+          git add package.json package-lock.json
           git diff-index --quiet HEAD || git commit -m "⬆️ update all npm dependencies⬆️"
 
       - name: 🚀 Push changes
